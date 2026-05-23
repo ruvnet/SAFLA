@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "safla"
-version = "0.1.3"
+version = "0.1.4"
 description = "Self-Aware Feedback Loop Algorithm - A sophisticated AI/ML system implementing autonomous learning and adaptation"
 readme = "README.md"
 license = "MIT"
