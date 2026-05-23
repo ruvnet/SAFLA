@@ -9,7 +9,6 @@ import asyncio
 import json
 import os
 import shutil
-import subprocess
 import time
 import psutil
 import logging

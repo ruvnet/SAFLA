@@ -12,7 +12,7 @@ This package provides:
 - Delta Evaluation System for quantifying improvements
 """
 
-__version__ = "0.1.3"
+__version__ = "0.1.4"
 __author__ = "SAFLA Development Team"
 __email__ = "ruv@ruv.net"
 __license__ = "MIT"

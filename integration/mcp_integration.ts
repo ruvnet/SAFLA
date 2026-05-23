@@ -97,6 +97,7 @@ export class SAFLAMCPClient extends EventEmitter {
   async connect(): Promise<void> {
     return new Promise((resolve, reject) => {
       try {
+        const [command, ...args] = this.serverPath.split(' ');
         this.process = spawn(command, args, {
           stdio: ['pipe', 'pipe', 'pipe']
         });
@@ -132,7 +133,6 @@ export class SAFLAMCPClient extends EventEmitter {
             this.emit('disconnect');
           });
         }
-        });
 
         // Initialize connection
         this.sendRequest('initialize', {
