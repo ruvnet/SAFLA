@@ -140,19 +140,19 @@ class BloomFilter:
     def add(self, item: str):
         """Add item to Bloom filter."""
         for i in range(self.hash_count):
-            # Use hashlib instead of mmh3 for compatibility
+            # Use SHA-256 instead of MD5 for better collision resistance
             hash_input = f"{item}:{i}".encode()
-            hash_value = int(hashlib.md5(hash_input).hexdigest(), 16) % self.bit_array_size
+            hash_value = int(hashlib.sha256(hash_input).hexdigest(), 16) % self.bit_array_size
             self.bit_array[hash_value] = True
-        
+
         self.item_count += 1
-    
+
     def contains(self, item: str) -> bool:
         """Check if item might be in the filter (no false negatives)."""
         for i in range(self.hash_count):
-            # Use hashlib instead of mmh3 for compatibility
+            # Use SHA-256 instead of MD5 for better collision resistance
             hash_input = f"{item}:{i}".encode()
-            hash_value = int(hashlib.md5(hash_input).hexdigest(), 16) % self.bit_array_size
+            hash_value = int(hashlib.sha256(hash_input).hexdigest(), 16) % self.bit_array_size
             if not self.bit_array[hash_value]:
                 return False
         return True
@@ -685,8 +685,8 @@ class OptimizedSafetyValidator:
         safety_level: SafetyLevel
     ) -> str:
         """Generate unique request ID."""
-        content_hash = hashlib.md5(content.encode()).hexdigest()[:8]
-        context_hash = hashlib.md5(json.dumps(context or {}, sort_keys=True).encode()).hexdigest()[:8]
+        content_hash = hashlib.sha256(content.encode()).hexdigest()[:8]
+        context_hash = hashlib.sha256(json.dumps(context or {}, sort_keys=True).encode()).hexdigest()[:8]
         return f"safety:{content_hash}:{context_hash}:{safety_level.value}"
     
     def _generate_cache_key(

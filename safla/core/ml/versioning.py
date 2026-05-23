@@ -268,12 +268,12 @@ class ModelVersionManager:
         """Generate a unique version ID."""
         # Create hash from model state and timestamp
         timestamp = datetime.now().isoformat()
-        model_hash = hashlib.md5(str(model.state_dict()).encode()).hexdigest()[:8]
-        
+        model_hash = hashlib.sha256(str(model.state_dict()).encode()).hexdigest()[:8]
+
         # Include metadata in hash if available
         if metadata:
             metadata_str = str(sorted(metadata.items()))
-            metadata_hash = hashlib.md5(metadata_str.encode()).hexdigest()[:4]
+            metadata_hash = hashlib.sha256(metadata_str.encode()).hexdigest()[:4]
             version_id = f"v_{timestamp.replace(':', '-').replace('.', '-')}_{model_hash}_{metadata_hash}"
         else:
             version_id = f"v_{timestamp.replace(':', '-').replace('.', '-')}_{model_hash}"

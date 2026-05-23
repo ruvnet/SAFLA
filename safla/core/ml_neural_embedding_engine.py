@@ -1104,7 +1104,7 @@ class NeuralEmbeddingEngine:
     def _generate_cache_key(self, inputs: Any, embedding_type: EmbeddingType) -> str:
         """Generate cache key for inputs."""
         input_str = str(inputs) + str(embedding_type.value)
-        return hashlib.md5(input_str.encode()).hexdigest()
+        return hashlib.sha256(input_str.encode()).hexdigest()
     
     def _update_performance_metrics(self, result: EmbeddingResult):
         """Update performance metrics."""

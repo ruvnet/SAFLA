@@ -549,7 +549,7 @@ class AIAssistant:
         """Generate a simple text embedding (in production, use proper models)."""
         # Simplified embedding generation
         import hashlib
-        text_hash = hashlib.md5(text.encode()).hexdigest()
+        text_hash = hashlib.sha256(text.encode()).hexdigest()
         
         # Convert hash to 512-dimensional vector
         embedding = []

@@ -87,8 +87,20 @@ export class SAFLAMCPClient extends EventEmitter {
     reject: (error: any) => void;
   }>();
 
-  constructor(private serverPath: string = 'python safla/mcp_stdio_server.py') {
+  /**
+   * @param command  Executable to run (e.g. 'python'). Must not contain spaces.
+   * @param args     Argument list passed directly to spawn — never joined into a
+   *                 shell string, preventing argument-injection attacks.
+   */
+  constructor(
+    private command: string = 'python',
+    private args: string[] = ['safla/mcp_stdio_server.py']
+  ) {
     super();
+    // Validate that command does not contain shell metacharacters
+    if (/[\s;&|`$<>\\'"!]/.test(command)) {
+      throw new Error(`Invalid command: shell metacharacters are not allowed in command ('${command}')`);
+    }
   }
 
   /**
@@ -97,8 +109,7 @@ export class SAFLAMCPClient extends EventEmitter {
   async connect(): Promise<void> {
     return new Promise((resolve, reject) => {
       try {
-        const [command, ...args] = this.serverPath.split(' ');
-        this.process = spawn(command, args, {
+        this.process = spawn(this.command, this.args, {
           stdio: ['pipe', 'pipe', 'pipe']
         });
 

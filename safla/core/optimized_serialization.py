@@ -261,15 +261,24 @@ class JSONSerializationStrategy(SerializationStrategy):
 
 
 class PickleSerializationStrategy(SerializationStrategy):
-    """Pickle serialization strategy."""
-    
+    """Pickle serialization strategy.
+
+    WARNING: pickle.loads() can execute arbitrary code. Only deserialize data
+    from trusted, internal sources (e.g. data serialized by this same process).
+    Never deserialize pickled data received over a network or from untrusted input.
+    """
+
     def serialize(self, obj: Any) -> bytes:
         """Serialize object to pickle bytes."""
         return pickle.dumps(obj, protocol=pickle.HIGHEST_PROTOCOL)
-    
+
     def deserialize(self, data: bytes) -> Any:
-        """Deserialize pickle bytes to object."""
-        return pickle.loads(data)
+        """Deserialize pickle bytes from a trusted internal source only.
+
+        SECURITY: Do NOT call this method with externally-supplied bytes.
+        Pickle deserialization of untrusted data allows arbitrary code execution.
+        """
+        return pickle.loads(data)  # noqa: S301 — internal data only
     
     def get_format(self) -> SerializationFormat:
         """Get the serialization format."""
