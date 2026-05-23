@@ -47,7 +47,7 @@ class VectorMemory(MemoryItem):
         if isinstance(self.content, str):
             # Simple hash-based embedding for demonstration
             import hashlib
-            hash_val = hashlib.md5(self.content.encode()).hexdigest()
+            hash_val = hashlib.sha256(self.content.encode()).hexdigest()
             # Convert to numeric representation
             numeric_hash = [ord(c) for c in hash_val[:self.dimension//16]]
             # Pad or truncate to desired dimension

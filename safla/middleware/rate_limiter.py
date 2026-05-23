@@ -251,7 +251,7 @@ class RateLimiter:
         if ip == "unknown":
             # Create signature from method and params
             sig_data = f"{request.get('method', '')}:{json.dumps(params, sort_keys=True)}"
-            sig_hash = hashlib.md5(sig_data.encode()).hexdigest()[:8]
+            sig_hash = hashlib.sha256(sig_data.encode()).hexdigest()[:8]
             return f"sig:{sig_hash}"
         
         return f"ip:{ip}"

@@ -696,7 +696,7 @@ class OptimizedMCPOrchestrator:
     def _generate_request_id(self, request_type: MCPRequestType, payload: Dict[str, Any]) -> str:
         """Generate unique request ID."""
         content = f"{request_type.value}:{json.dumps(payload, sort_keys=True)}"
-        hash_obj = hashlib.md5(content.encode())
+        hash_obj = hashlib.sha256(content.encode())
         return f"{request_type.value}:{hash_obj.hexdigest()[:8]}"
     
     def _generate_cache_key(self, request_type: MCPRequestType, payload: Dict[str, Any]) -> str:

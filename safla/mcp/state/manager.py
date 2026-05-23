@@ -243,7 +243,7 @@ class StateManager:
             # Write to temporary file first
             temp_path = Path(self._persistence_path).with_suffix('.tmp')
             with open(temp_path, 'w') as f:
-                json.dumps(state_data, f, indent=2, default=str)
+                json.dump(state_data, f, indent=2, default=str)
             
             # Atomic rename
             temp_path.rename(self._persistence_path)

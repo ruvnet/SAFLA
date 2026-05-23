@@ -281,7 +281,7 @@ class NeuralEmbeddingEngine:
             key_data += f":{self.config.model_name}:{self.config.embedding_dim}"
             key_data += f":{self.config.normalize_embeddings}:{self.config.max_sequence_length}"
             
-            return hashlib.md5(key_data.encode()).hexdigest()
+            return hashlib.sha256(key_data.encode()).hexdigest()
             
         except Exception:
             return None
