@@ -26,7 +26,7 @@ async def validate_installation_handler(args: Dict[str, Any], context: Dict[str,
         
         return {
             "valid": validation_result["valid"],
-            "checks": validation_result["checks"],
+            "system_info": validation_result.get("system_info", {}),
             "errors": validation_result.get("errors", []),
             "warnings": validation_result.get("warnings", [])
         }
@@ -102,7 +102,7 @@ async def check_gpu_status_handler(args: Dict[str, Any], context: Dict[str, Any]
     try:
         gpu_info = check_gpu_availability()
         
-        if gpu_info["available"]:
+        if gpu_info.get("cuda_available", False):
             # Try to get detailed GPU info if available
             try:
                 import torch

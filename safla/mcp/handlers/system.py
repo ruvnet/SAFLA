@@ -168,14 +168,15 @@ class SystemHandler(BaseHandler):
     async def _check_gpu_status(self) -> Dict[str, Any]:
         """Check GPU availability and status."""
         try:
-            gpu_available, gpu_info = check_gpu_availability()
-            
+            gpu_info = check_gpu_availability()
+            gpu_available = gpu_info.get("cuda_available", False)
+
             result = {
                 "gpu_available": gpu_available,
                 "gpu_info": gpu_info,
                 "timestamp": time.time()
             }
-            
+
             # Additional GPU checks if available
             if gpu_available:
                 try:
